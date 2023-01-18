@@ -1,0 +1,15 @@
+import paramiko, os
+ssh = paramiko.SSHClient()
+ssh.set_missing_host_key_policy( paramiko.AutoAddPolicy() )
+host = os.environ.get('host')
+username = os.environ.get('username')
+password = os.environ.get('password')
+port = os.environ.get('port')
+keyfile = 'id_rsa'
+key = paramiko.RSAKey.from_private_key_file(keyfile)
+# print(host, port, username, key)
+# ssh.connect(host, port, username, key_filename=keyfile)
+ssh.connect(host, port, username, pkey=key, password=password)
+ftp_server = ssh.open_sftp()
+files = ftp_server.listdir()
+print(files)

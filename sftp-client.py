@@ -1,0 +1,12 @@
+import paramiko, os
+ssh = paramiko.SSHClient()
+ssh.set_missing_host_key_policy( paramiko.AutoAddPolicy() )
+host = os.environ.get('host')
+username = os.environ.get('username')
+password = os.environ.get('password')
+port = os.environ.get('port')
+print(host, port, username, password)
+ssh.connect(host, port, username, password)
+ftp_server = ssh.open_sftp()
+files = ftp_server.listdir()
+print(files)
